@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Jinhong Min{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="container">
+  <header>
+    <div>
+      <nav class="flex flex-col">
+        <h1><a href="/">Jinhong Min</a></h1>
+        <div>
+          <a href="/" {% if request.path=='/' %}class="active" {% endif %}>Main</a>
+          <a href="/work" {% if request.path=='/work' %}class="active" {% endif %}>Work</a>
+          <a href="/blog" {% if request.path=='/blog' %}class="active" {% endif %}>Blog</a>
+          <a href="/other" {% if request.path=='/other' %}class="active" {% endif %}>Other</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Jinhong Min. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>
