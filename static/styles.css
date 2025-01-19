@@ -1,18 +1,64 @@
 * {
-  margin: 0;
   padding: 0;
+  margin: 0;
   box-sizing: border-box;
   background-color: #f5f5f5;
 }
 
+.bitter-clean {
+  font-family: "Bitter", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 body {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Bitter", sans-serif;
   line-height: 1.6;
   color: #333;
 }
 
 header {
+    margin-top: 20px;
+  margin-bottom: 30px;  
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.history {
   margin-bottom: 20px;
+}
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 25px;
+
+}
+
+section p {
+  line-height: 1.8
+}
+
+.password-prompt > h2 {
+        font-size: 1.4rem;
+          font-weight: 500;
+}
+
+span a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 500;
+  margin-bottom: 5px;
 }
 
 .container {
@@ -26,17 +72,18 @@ header {
   padding: 1rem 0;
 }
 
-.flex {
+.navbox {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 15px;
 }
 
-nav h1 {
+.navbox h1 {
   margin-bottom: 15px;
 }
 
-nav h1 a {
+.navbox h1 a {
   font-size: 2rem;
   font-weight: 500;
   /* text-transform: uppercase; */
@@ -69,4 +116,14 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+.work-history {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+section div ul {
+  margin-left: 10px;
 }

@@ -5,20 +5,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Jinhong Min{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   {% block extra_head %}{% endblock %}
 </head>
 
-<body class="container">
+<body class="container bitter-clean">
   <header>
     <div>
-      <nav class="flex flex-col">
+      <nav class="navbox">
         <h1><a href="/">Jinhong Min</a></h1>
         <div>
           <a href="/" {% if request.path=='/' %}class="active" {% endif %}>Main</a>
           <a href="/work" {% if request.path=='/work' %}class="active" {% endif %}>Work</a>
-          <a href="/blog" {% if request.path=='/blog' %}class="active" {% endif %}>Blog</a>
-          <a href="/other" {% if request.path=='/other' %}class="active" {% endif %}>Other</a>
+          <a href="/blog" {% if request.path.startswith('/blog') %}class="active" {% endif %}>Blog</a>          <a href="/other" {% if request.path=='/other' %}class="active" {% endif %}>Other</a>
         </div>
       </nav>
     </div>
