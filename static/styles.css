@@ -143,9 +143,12 @@ section div ul {
 }
 
 .gallery-row img {
-  width: calc(50% - 10px); /* Two images per row with gap */
-  height: 300px; /* Slightly increased height for better visibility */
+  width: calc(50% - 10px);
+  /* Two images per row with gap */
+  aspect-ratio: 1 / 1;
+  /* Forces 1:1 square aspect ratio */
   object-fit: cover;
+  /* Ensures image covers entire square */
   border-radius: 8px;
   transition: transform 0.3s ease;
 }
@@ -161,8 +164,10 @@ section div ul {
   }
 
   .gallery-row img {
-    width: 100%; /* Full width on mobile */
-    height: 250px; /* Adjust height as needed */
+    width: 100%;
+    /* Full width on mobile */
+    aspect-ratio: 1 / 1;
+    /* Maintains square on mobile */
     margin-bottom: 20px;
   }
 }
