@@ -1,5 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask import Flask, render_template
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -24,7 +28,8 @@ def other():
     return render_template('other.html')
 
 
-BLOG_PASSWORD = 'jinhongee'  # Change to a strong password
+# Get blog password from environment variable
+BLOG_PASSWORD = os.getenv('BLOG_PASSWORD')
 
 
 @app.route('/blog/essay1', methods=['GET', 'POST'])
