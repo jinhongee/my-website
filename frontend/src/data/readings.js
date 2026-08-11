@@ -1,0 +1,132 @@
+// Curated reading list — foundational texts, not blog posts.
+const readings = [
+  {
+    group: 'Foundations & Type Theory',
+    items: [
+      {
+        title: 'Homotopy Type Theory: Univalent Foundations of Mathematics',
+        authors: 'The Univalent Foundations Program',
+        venue: 'Institute for Advanced Study',
+        year: 2013,
+        link: 'https://homotopytypetheory.org/book/',
+        note: 'Identity types as path spaces; Voevodsky’s univalence axiom and higher inductive types as a candidate foundation replacing set theory. The cleanest bridge between homotopy theory and computation.',
+      },
+      {
+        title: 'Categories for the Working Mathematician',
+        authors: 'S. Mac Lane',
+        venue: 'Springer GTM 5',
+        year: 1978,
+        link: 'https://link.springer.com/book/10.1007/978-1-4757-4721-8',
+        note: 'Adjunctions, limits, monads — the grammar underneath every compositional structure, including the functorial view of learning systems.',
+      },
+      {
+        title: 'A First Course in Modular Forms',
+        authors: 'F. Diamond, J. Shurman',
+        venue: 'Springer GTM 228',
+        year: 2005,
+        link: 'https://link.springer.com/book/10.1007/978-0-387-27226-9',
+        note: 'Modular curves, Hecke operators, and the modularity theorem — the machinery behind Wiles. Read for the discipline of moving between analytic, algebraic, and geometric pictures of one object.',
+      },
+      {
+        title: 'Lectures on the Langlands Program and Conformal Field Theory',
+        authors: 'E. Frenkel',
+        venue: 'Les Houches lectures',
+        year: 2005,
+        link: 'https://arxiv.org/abs/hep-th/0512172',
+        note: 'The grand unification program of mathematics — Galois representations ↔ automorphic forms — and its startling echo in quantum field theory.',
+      },
+    ],
+  },
+  {
+    group: 'Geometry & Topology of Learning',
+    items: [
+      {
+        title: 'Algebraic Geometry and Statistical Learning Theory',
+        authors: 'S. Watanabe',
+        venue: 'Cambridge University Press',
+        year: 2009,
+        link: 'https://www.cambridge.org/core/books/algebraic-geometry-and-statistical-learning-theory/9C8FD1BDC817E2FC79117C7F41544A3A',
+        note: 'Singular learning theory: neural networks are singular models, resolution of singularities gives the real log canonical threshold, and Bayesian free energy asymptotics stop being (d/2)·log n.',
+      },
+      {
+        title: 'Geometric Deep Learning: Grids, Groups, Graphs, Geodesics, and Gauges',
+        authors: 'M. M. Bronstein, J. Bruna, T. Cohen, P. Veličković',
+        venue: 'arXiv',
+        year: 2021,
+        link: 'https://arxiv.org/abs/2104.13478',
+        note: 'An Erlangen program for deep learning: architectures as symmetry groups and invariance classes rather than a zoo of tricks.',
+      },
+      {
+        title: 'Topology and Data',
+        authors: 'G. Carlsson',
+        venue: 'Bulletin of the AMS 46(2)',
+        year: 2009,
+        link: 'https://www.ams.org/journals/bull/2009-46-02/S0273-0979-09-01249-X/',
+        note: 'Persistent homology as a functorial summary of data across scales — the founding statement of topological data analysis.',
+      },
+      {
+        title: 'Neural Networks, Manifolds, and Topology',
+        authors: 'C. Olah',
+        venue: 'colah.github.io',
+        year: 2014,
+        link: 'https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/',
+        note: 'Layers as ambient isotopies: why depth buys the topological moves that width alone cannot.',
+      },
+      {
+        title: 'Optimal Transport: Old and New',
+        authors: 'C. Villani',
+        venue: 'Springer Grundlehren 338',
+        year: 2009,
+        link: 'https://link.springer.com/book/10.1007/978-3-540-71050-9',
+        note: 'Wasserstein geometry on probability measures — the metric structure implicit in generative modeling and gradient flows on distribution space.',
+      },
+    ],
+  },
+  {
+    group: 'Learning Theory & Statistical Mechanics',
+    items: [
+      {
+        title: 'The Principles of Deep Learning Theory',
+        authors: 'D. A. Roberts, S. Yaida, B. Hanin',
+        venue: 'Cambridge University Press',
+        year: 2022,
+        link: 'https://arxiv.org/abs/2106.10165',
+        note: 'An effective field theory of finite-width networks: perturbative 1/width corrections, criticality, and why depth-to-width ratio is the control parameter.',
+      },
+      {
+        title: 'Neural Tangent Kernel: Convergence and Generalization in Neural Networks',
+        authors: 'A. Jacot, F. Gabriel, C. Hongler',
+        venue: 'Proc. NeurIPS',
+        year: 2018,
+        link: 'https://arxiv.org/abs/1806.07572',
+        note: 'Infinite-width training dynamics linearize into kernel gradient descent — the exactly solvable model that anchors the whole modern theory.',
+      },
+      {
+        title: 'Reconciling Modern Machine-Learning Practice and the Classical Bias–Variance Trade-off',
+        authors: 'M. Belkin, D. Hsu, S. Ma, S. Mandal',
+        venue: 'PNAS 116(32)',
+        year: 2019,
+        link: 'https://www.pnas.org/doi/10.1073/pnas.1903070116',
+        note: 'Double descent: interpolation is not the end of generalization but the start of a second regime classical theory never predicted.',
+      },
+      {
+        title: 'Information Geometry and Its Applications',
+        authors: 'S. Amari',
+        venue: 'Springer AMS 194',
+        year: 2016,
+        link: 'https://link.springer.com/book/10.1007/978-4-431-55978-8',
+        note: 'The Fisher metric and dual affine connections turn families of distributions into Riemannian manifolds — natural gradient descent falls out as a corollary.',
+      },
+      {
+        title: 'Deep Learning and the Information Bottleneck Principle',
+        authors: 'N. Tishby, N. Zaslavsky',
+        venue: 'Proc. IEEE ITW',
+        year: 2015,
+        link: 'https://arxiv.org/abs/1503.02406',
+        note: 'Representation learning as lossy compression against a relevance variable — contested empirically, indispensable conceptually.',
+      },
+    ],
+  },
+]
+
+export default readings
