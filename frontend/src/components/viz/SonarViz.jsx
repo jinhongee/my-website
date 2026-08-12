@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import useCanvasLoop, { TAU, drawDotGrid, monoLabel } from './useCanvasLoop'
 
-const ACCENT = '79, 227, 193'
+const ACCENT = '255, 84, 20'
 const BLUE = '106, 165, 255'
 
 function angDiff(a, b) {

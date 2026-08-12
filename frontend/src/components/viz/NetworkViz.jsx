@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 import useCanvasLoop, { TAU, drawDotGrid, monoLabel } from './useCanvasLoop'
 
-const ACCENT = '79, 227, 193'
+const ACCENT = '255, 84, 20'
 const BLUE = '106, 165, 255'
-const AMBER = '255, 184, 108'
+const AMBER = '239, 91, 91'
 
 const LAYERS = [
   { n: 4, label: 'SUPPLY' },

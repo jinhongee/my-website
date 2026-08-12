@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import useCanvasLoop, { TAU, drawDotGrid, monoLabel } from './useCanvasLoop'
 
 const COHORTS = [
-  { rgb: '79, 227, 193', label: 'π_A' },
+  { rgb: '255, 84, 20', label: 'π_A' },
   { rgb: '106, 165, 255', label: 'π_B' },
   { rgb: '148, 163, 184', label: 'π_C' },
 ]
