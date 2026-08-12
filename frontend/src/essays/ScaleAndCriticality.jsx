@@ -3,9 +3,8 @@ import { Eq, EqBlock } from '../components/Katex'
 export const meta = {
   slug: 'scale-and-criticality',
   title: 'Scale and Criticality: A Statistical-Mechanical View of Deep Networks',
-  date: '2026 · Essay III',
   teaser:
-    'Wide networks are random fields, training is a partition function, and the interesting phenomena — trainability, scaling laws, emergence — live at phase boundaries. Deep learning is condensed-matter physics with data as the material.',
+    'Wide networks are random fields and training is a partition function — trainability, scaling laws, and emergence all live at phase boundaries.',
   abstract:
     'We treat deep networks as statistical-mechanical systems. At infinite width a network at initialization is a Gaussian process whose layerwise kernel recursion admits ordered and chaotic phases; trainability requires initialization at the critical boundary between them. The Bayesian posterior defines a partition function whose free-energy asymptotics are governed by the geometry of the loss variety, and empirical scaling laws play the role of thermodynamic equations of state. Emergent capabilities and grokking are read as finite-size signatures of underlying phase transitions.',
 }

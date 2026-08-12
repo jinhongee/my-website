@@ -3,9 +3,8 @@ import { Eq, EqBlock } from '../components/Katex'
 export const meta = {
   slug: 'geometry-of-learning',
   title: 'Learning as Geometry: Gradient Flow, Curvature, and Degenerate Minima',
-  date: '2026 · Essay I',
   teaser:
-    'Training a neural network is a gradient flow on a curved, singular landscape. What the Fisher metric, the neural tangent kernel, and the real log canonical threshold each reveal about why overparameterized models generalize.',
+    'Training is a gradient flow on a curved, singular landscape — read through the Fisher metric, the neural tangent kernel, and the real log canonical threshold.',
   abstract:
     'We develop the view that learning is a geometric phenomenon: stochastic gradient descent is a discretization of a flow on parameter space, the correct notion of distance on that space is statistical rather than Euclidean, and the loci to which the flow converges are not isolated points but singular analytic varieties. Three formalisms organize the picture — natural gradient descent under the Fisher–Rao metric, the neural tangent kernel as the linearization of training dynamics, and Watanabe’s singular learning theory, whose real log canonical threshold replaces parameter count as the effective dimension governing generalization.',
 }

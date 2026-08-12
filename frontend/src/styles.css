@@ -7,7 +7,9 @@
   --muted: #6a6a6a;
   --faint: #9a9a9a;
   --accent: #ff4500;
+  --accent-vivid: #ef3b00;
   --accent-dim: rgba(255, 69, 0, 0.08);
+  --ink-strong: #1c1d20;
   --accent-2: #1f5fbf;
   --paper: #ffffff;
   --paper-ink: #1f2023;
@@ -127,33 +129,7 @@ a {
   padding-bottom: 72px;
 }
 
-.site-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding-top: 18px;
-  padding-bottom: 26px;
-  border-top: 1px solid var(--line);
-}
-
-.site-footer a {
-  text-decoration: none;
-}
-
-.site-footer a:hover {
-  color: var(--accent);
-}
-
 /* ---------- typography ---------- */
-
-.kicker {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
 
 h1.page-title {
   font-size: 1.65rem;
@@ -164,7 +140,7 @@ h1.page-title {
 }
 
 .lede {
-  color: var(--muted);
+  color: var(--ink-strong);
   max-width: 60ch;
   margin-bottom: 8px;
 }
@@ -189,57 +165,37 @@ h1.page-title {
 /* ---------- main page ---------- */
 
 .hero {
-  padding-top: 26px;
+  padding-top: 8px;
 }
 
 .hero .prose {
-  margin-top: 22px;
   max-width: 62ch;
 }
 
-.focus-list {
-  margin-top: 34px;
-  border-top: 1px solid var(--line);
+/* the bio is the whole page, so it carries a little more ink than body copy elsewhere */
+.bio {
+  color: var(--ink-strong);
 }
 
-.focus-row {
-  display: flex;
-  align-items: baseline;
-  gap: 18px;
-  padding: 13px 2px;
-  border-bottom: 1px solid var(--line);
-  text-decoration: none;
-  color: var(--text);
-  transition: background 0.15s ease;
+.bio p {
+  margin-bottom: 1.35em;
 }
 
-.focus-row:hover {
-  background: rgba(51, 51, 51, 0.04);
+/* many inline links in the bio — keep them quiet so the prose still reads as prose,
+   but let the accent underline carry the color */
+.bio a {
+  font-weight: 400;
+  color: var(--ink-strong);
+  text-decoration-color: var(--accent-vivid);
+  text-decoration-thickness: 2px;
 }
 
-.focus-row:hover .focus-name {
-  color: var(--accent);
+.bio a:hover {
+  color: var(--accent-vivid);
 }
 
-.focus-idx {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--faint);
-}
-
-.focus-name {
-  font-weight: 600;
-  transition: color 0.15s ease;
-}
-
-.focus-domain {
-  margin-left: auto;
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--faint);
-  text-align: right;
+.bio p:last-child {
+  margin-bottom: 0;
 }
 
 /* ---------- work list ---------- */
@@ -298,39 +254,11 @@ h1.page-title {
   transform: translateX(3px);
 }
 
-.work-org {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--faint);
-  margin-top: 5px;
-}
-
 .work-tagline {
   color: var(--muted);
   font-size: 0.9rem;
   margin-top: 9px;
   max-width: 64ch;
-}
-
-.tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.tag {
-  font-family: var(--mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  padding: 3px 10px;
-  background: var(--surface);
 }
 
 /* ---------- work detail ---------- */
@@ -348,14 +276,14 @@ h1.page-title {
   color: var(--accent);
 }
 
-/* figures stay dark — instrument panels on a light page */
+/* figures are plates on the page, not instruments embedded in it */
 .viz-panel {
   position: relative;
-  border: 1px solid rgba(20, 24, 28, 0.75);
-  border-radius: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
   overflow: hidden;
-  background: #0a0d10;
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.16);
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   margin-bottom: 30px;
 }
 
@@ -373,9 +301,9 @@ h1.page-title {
   font-size: 0.64rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #ff7038;
-  background: rgba(8, 10, 13, 0.78);
-  border: 1px solid rgba(255, 84, 20, 0.4);
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 69, 0, 0.32);
   border-radius: 4px;
   padding: 4px 9px;
 }
@@ -387,9 +315,9 @@ h1.page-title {
   font-family: var(--mono);
   font-size: 0.64rem;
   letter-spacing: 0.1em;
-  color: #8b98a9;
-  background: rgba(8, 10, 13, 0.78);
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--line);
   border-radius: 4px;
   padding: 4px 9px;
 }
@@ -530,15 +458,10 @@ h1.page-title {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
 }
 
-.article-card .work-idx {
-  color: var(--accent);
-}
-
 .article-title {
   font-family: var(--paper-serif);
   font-size: 1.18rem;
   font-weight: 600;
-  margin-top: 6px;
 }
 
 .article-abstract {
@@ -583,16 +506,6 @@ h1.page-title {
 .paper-byline {
   text-align: center;
   font-size: 0.95rem;
-  margin-bottom: 4px;
-}
-
-.paper-date {
-  text-align: center;
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #6b7280;
   margin-bottom: 34px;
 }
 

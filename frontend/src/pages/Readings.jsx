@@ -5,7 +5,6 @@ import readings from '../data/readings'
 export default function Readings() {
   return (
     <Page title="Readings">
-      <div className="kicker">Readings</div>
       <p className="lede">
         Texts I keep returning to — the mathematical substrate under machine learning, not the news
         cycle on top of it.

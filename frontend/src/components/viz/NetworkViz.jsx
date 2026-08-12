@@ -1,9 +1,5 @@
 import { useCallback } from 'react'
-import useCanvasLoop, { TAU, drawDotGrid, monoLabel } from './useCanvasLoop'
-
-const ACCENT = '255, 84, 20'
-const BLUE = '106, 165, 255'
-const AMBER = '239, 91, 91'
+import useCanvasLoop, { TAU, drawDotGrid, monoLabel, PAPER, INK, ACCENT, BLUE, ALERT } from './useCanvasLoop'
 
 const LAYERS = [
   { n: 4, label: 'SUPPLY' },
@@ -50,7 +46,7 @@ export default function NetworkViz() {
     }
 
     ctx.clearRect(0, 0, w, h)
-    drawDotGrid(ctx, w, h, 22, 0.06)
+    drawDotGrid(ctx, w, h, 22, 0.09)
 
     // periodic disruption + implicit reroute (siblings brighten)
     if (t > s.nextDisrupt) {
@@ -77,9 +73,9 @@ export default function NetworkViz() {
 
       if (down) {
         ctx.setLineDash([3, 5])
-        ctx.strokeStyle = `rgba(${AMBER}, 0.65)`
+        ctx.strokeStyle = `rgba(${ALERT}, 0.65)`
       } else {
-        ctx.strokeStyle = `rgba(148, 163, 184, ${0.18 + sibBoost * 0.5})`
+        ctx.strokeStyle = `rgba(${INK}, ${0.22 + sibBoost * 0.5})`
       }
       ctx.lineWidth = down ? 1.2 : 1
       ctx.beginPath()
@@ -89,7 +85,7 @@ export default function NetworkViz() {
       ctx.setLineDash([])
 
       if (down) {
-        monoLabel(ctx, '✕ capacity', mx - 26, (y1 + y2) / 2 + bow - 6, `rgba(${AMBER}, 0.9)`)
+        monoLabel(ctx, '✕ capacity', mx - 26, (y1 + y2) / 2 + bow - 6, `rgba(${ALERT}, 0.9)`)
         continue
       }
 
@@ -126,8 +122,8 @@ export default function NetworkViz() {
         ctx.stroke()
       }
 
-      ctx.fillStyle = '#05070a'
-      ctx.strokeStyle = sink ? `rgba(${ACCENT}, 0.85)` : 'rgba(148, 163, 184, 0.7)'
+      ctx.fillStyle = PAPER
+      ctx.strokeStyle = sink ? `rgba(${ACCENT}, 0.85)` : `rgba(${INK}, 0.75)`
       ctx.lineWidth = 1.2
       ctx.beginPath()
       if (nd.li === 0) {
@@ -146,17 +142,17 @@ export default function NetworkViz() {
 
       // inventory bar
       const bw = 20
-      ctx.fillStyle = 'rgba(148, 163, 184, 0.15)'
+      ctx.fillStyle = `rgba(${INK}, 0.18)`
       ctx.fillRect(px - bw / 2, py + 10, bw, 3)
       const low = nd.inv < 0.25
-      ctx.fillStyle = low ? `rgba(${AMBER}, 0.95)` : `rgba(${BLUE}, 0.8)`
+      ctx.fillStyle = low ? `rgba(${ALERT}, 0.95)` : `rgba(${BLUE}, 0.8)`
       ctx.fillRect(px - bw / 2, py + 10, bw * nd.inv, 3)
     }
 
     // layer labels
     LAYERS.forEach((L, li) => {
       const x = (0.1 + (li / (LAYERS.length - 1)) * 0.8) * w
-      monoLabel(ctx, L.label, x - 18, h - 12, 'rgba(139,152,169,0.85)')
+      monoLabel(ctx, L.label, x - 18, h - 12, 'rgba(106,106,106,0.85)')
     })
     monoLabel(ctx, 'min Σ_e c_e·x_e  s.t.  Ax = d,  x ≤ u', 16, 50, `rgba(${ACCENT}, 0.85)`)
   }, [])

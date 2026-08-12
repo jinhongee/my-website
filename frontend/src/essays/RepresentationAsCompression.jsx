@@ -3,9 +3,8 @@ import { Eq, EqBlock } from '../components/Katex'
 export const meta = {
   slug: 'representation-as-compression',
   title: 'Representation as Compression: An Information-Theoretic Account of Learning',
-  date: '2026 · Essay II',
   teaser:
-    'Sufficient statistics, the information bottleneck, rate–distortion, and PAC-Bayes are one idea wearing four costumes: a representation is good exactly insofar as it is a short code for what matters.',
+    'Sufficient statistics, the information bottleneck, rate–distortion, and PAC-Bayes are one idea in four costumes: a good representation is a short code for what matters.',
   abstract:
     'We reconstruct representation learning from information-theoretic first principles. The classical notion of a minimal sufficient statistic is relaxed into the information bottleneck Lagrangian; variational autoencoders are exhibited as its tractable dual; rate–distortion theory supplies the operational meaning of the trade-off; and PAC-Bayes converts description length into a generalization guarantee. On this reading, the cross-entropy objective of a large language model is a codelength, and scaling laws are empirical rate–distortion curves for natural data.',
 }

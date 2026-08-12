@@ -1,49 +1,46 @@
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import Page, { stagger, rise } from '../components/Page'
-import work from '../data/work'
+import Page from '../components/Page'
 
 export default function Main() {
   return (
     <Page title={null}>
       <section className="hero">
-        <div className="kicker">Machine Learning / Systems</div>
-        <h1 className="page-title">
-          Building agentic systems and the models underneath them.
-        </h1>
-        <div className="prose">
+        <div className="prose bio">
           <p>
-            I am a co-founder at{' '}
-            <a href="https://quno.ai" target="_blank" rel="noreferrer">
-              Quno AI
+            I am drawn to simple ideas and like to build systems that hold. I am interested in the
+            fundamental questions underneath learning and intelligence. What is a model actually
+            learning — the world, or the data it saw? Can a learner improve how it learns? How far
+            can a system bootstrap from its own output?
+          </p>
+          <p>
+            I am building{' '}
+            <a href="https://openintellect.co/" target="_blank" rel="noreferrer">
+              OpenIntellect
             </a>
-            , backed by a16z speedrun (SR004) and Pear VC.
+            , backed by Andreessen Horowitz. Firms run their own intelligence on their own
+            infrastructure — open-weight models grounded in the firm's knowledge, deployed inside
+            its perimeter, so the data never leaves.
           </p>
           <p>
-            Before that, I studied computer science and statistics at Columbia University. My work
-            sits where large-scale machine learning meets systems engineering — sequence models and
-            representation learning on the one side, the distributed infrastructure that trains and
-            serves them on the other, with a standing side interest in operating systems.
+            The problems I keep returning to:{' '}
+            <Link to="/work/sovereign-models">sovereign open-weight models</Link> — continual
+            pretraining, tokenizer adaptation, alignment on domestic compute;{' '}
+            <Link to="/work/supply-chain-agents">autonomous agents</Link>, where hierarchical
+            planners are grounded in constrained solvers rather than free-form generation; and{' '}
+            <Link to="/work/hydroacoustic-classification">signal classification</Link>, where a
+            physics-derived front end supplies the structure rather than a network hunting for it in
+            raw noise.
           </p>
           <p>
-            Right now I care about shipping systems that hold up in production. If you want to talk
-            about any of the below, reach out at{' '}
-            <a href="mailto:jinhong@quno.ai">jinhong@quno.ai</a>.
+            Before this, I studied computer science and statistics at Columbia, where I developed a
+            strong interest in operating systems and compilers.
+          </p>
+          <p>
+            Longer arguments become <Link to="/articles">essays</Link>; what I am reading is{' '}
+            <Link to="/readings">here</Link>.
           </p>
         </div>
       </section>
-
-      <motion.div className="focus-list" variants={stagger} initial="hidden" animate="show">
-        {work.map((wk, i) => (
-          <motion.div key={wk.slug} variants={rise}>
-            <Link to={`/work/${wk.slug}`} className="focus-row">
-              <span className="focus-idx">{String(i + 1).padStart(2, '0')}</span>
-              <span className="focus-name">{wk.title}</span>
-              <span className="focus-domain">{wk.org}</span>
-            </Link>
-          </motion.div>
-        ))}
-      </motion.div>
     </Page>
   )
 }

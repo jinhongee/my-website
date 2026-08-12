@@ -1,8 +1,5 @@
 import { useCallback } from 'react'
-import useCanvasLoop, { TAU, drawDotGrid, monoLabel } from './useCanvasLoop'
-
-const ACCENT = '255, 84, 20'
-const BLUE = '106, 165, 255'
+import useCanvasLoop, { TAU, drawDotGrid, monoLabel, INK, ACCENT, BLUE } from './useCanvasLoop'
 
 // Recurrent sequence modeling: scrolling stochastic price path with a
 // forecast cone (top), unrolled LSTM cells passing hidden state (bottom).
@@ -34,7 +31,7 @@ export default function SequenceViz() {
     }
 
     ctx.clearRect(0, 0, w, h)
-    drawDotGrid(ctx, w, h, 22, 0.06)
+    drawDotGrid(ctx, w, h, 22, 0.09)
 
     const chartH = h * 0.52
     const chartY = 24
@@ -56,7 +53,7 @@ export default function SequenceViz() {
         ctx.lineTo(lx + k, ly + Math.sqrt(k) * 2.6)
       }
       ctx.closePath()
-      ctx.fillStyle = `rgba(${BLUE}, 0.09)`
+      ctx.fillStyle = `rgba(${BLUE}, 0.1)`
       ctx.fill()
 
       // sampled trajectories inside the cone
@@ -116,7 +113,7 @@ export default function SequenceViz() {
     for (let i = 0; i < nc - 1; i++) {
       const xa = cx0 + i * gap + 18
       const xb = cx0 + (i + 1) * gap - 18
-      ctx.strokeStyle = 'rgba(148, 163, 184, 0.3)'
+      ctx.strokeStyle = `rgba(${INK}, 0.34)`
       ctx.lineWidth = 1
       ctx.beginPath()
       ctx.moveTo(xa, cellY)
@@ -133,7 +130,7 @@ export default function SequenceViz() {
     for (let i = 0; i < nc; i++) {
       const cx = cx0 + i * gap
       // input arrow from chart
-      ctx.strokeStyle = 'rgba(148, 163, 184, 0.18)'
+      ctx.strokeStyle = `rgba(${INK}, 0.22)`
       ctx.setLineDash([2, 4])
       ctx.beginPath()
       ctx.moveTo(cx, chartY + chartH + 8)
@@ -147,7 +144,7 @@ export default function SequenceViz() {
       ctx.strokeRect(cx - 18, cellY - 16, 36, 32)
 
       // self-loop (cell state) with orbiting pulse
-      ctx.strokeStyle = 'rgba(148, 163, 184, 0.4)'
+      ctx.strokeStyle = `rgba(${INK}, 0.42)`
       ctx.lineWidth = 1
       ctx.beginPath()
       ctx.arc(cx, cellY - 26, 9, 0, TAU)
@@ -167,7 +164,7 @@ export default function SequenceViz() {
       }
     }
 
-    monoLabel(ctx, 'σ(W_f·[h,x])  σ(W_i·[h,x])  σ(W_o·[h,x])', cx0 - 18, cellY + 34, 'rgba(139,152,169,0.75)')
+    monoLabel(ctx, 'σ(W_f·[h,x])  σ(W_i·[h,x])  σ(W_o·[h,x])', cx0 - 18, cellY + 34, 'rgba(106,106,106,0.8)')
     monoLabel(ctx, 'c_t', cx0 + (nc - 1) * gap + 16, cellY - 24, `rgba(${BLUE}, 0.9)`)
     monoLabel(ctx, 'h_t →', cx0 + (nc - 1) * gap + 24, cellY + 3, `rgba(${ACCENT}, 0.9)`)
   }, [])

@@ -11,13 +11,12 @@ export default function ArticlePage() {
   return (
     <Page title={essay.title}>
       <Link to="/articles" className="back-link">
-        ← Articles
+        ← Essays
       </Link>
       <div className="paper-wrap">
         <article className="paper">
           <h1 className="paper-title">{essay.title}</h1>
           <div className="paper-byline">Jinhong Min</div>
-          <div className="paper-date">{essay.date}</div>
           <div className="paper-abstract">
             <span className="abstract-head">Abstract</span>
             {essay.abstract}

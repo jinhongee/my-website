@@ -1,8 +1,5 @@
 import { useCallback } from 'react'
-import useCanvasLoop, { TAU, drawDotGrid, monoLabel } from './useCanvasLoop'
-
-const ACCENT = '255, 84, 20'
-const BLUE = '106, 165, 255'
+import useCanvasLoop, { TAU, drawDotGrid, monoLabel, INK, ACCENT, BLUE } from './useCanvasLoop'
 
 function angDiff(a, b) {
   let d = (a - b) % TAU
@@ -33,7 +30,7 @@ export default function SonarViz() {
     }
 
     ctx.clearRect(0, 0, w, h)
-    drawDotGrid(ctx, w, h, 22, 0.06)
+    drawDotGrid(ctx, w, h, 22, 0.09)
 
     const specW = Math.min(w * 0.34, 250)
     const cx = (w - specW - 30) / 2 + 6
@@ -41,7 +38,7 @@ export default function SonarViz() {
     const R = Math.min(cx - 26, h / 2 - 34)
 
     // --- polar grid (dotted rings + spokes) ---
-    ctx.fillStyle = 'rgba(148, 163, 184, 0.28)'
+    ctx.fillStyle = `rgba(${INK}, 0.32)`
     for (let ring = 1; ring <= 4; ring++) {
       const rr = (R * ring) / 4
       const n = Math.max(24, Math.round(rr * 0.55))
@@ -50,7 +47,7 @@ export default function SonarViz() {
         ctx.fillRect(cx + Math.cos(a) * rr - 0.5, cy + Math.sin(a) * rr - 0.5, 1, 1)
       }
     }
-    ctx.strokeStyle = 'rgba(148, 163, 184, 0.1)'
+    ctx.strokeStyle = `rgba(${INK}, 0.14)`
     ctx.lineWidth = 1
     for (let i = 0; i < 12; i++) {
       const a = (i / 12) * TAU
@@ -79,7 +76,7 @@ export default function SonarViz() {
       ? (() => {
           const g = ctx.createConicGradient(sweep - wedge, cx, cy)
           g.addColorStop(0, `rgba(${ACCENT}, 0)`)
-          g.addColorStop(0.98 * (wedge / TAU), `rgba(${ACCENT}, 0.22)`)
+          g.addColorStop(0.98 * (wedge / TAU), `rgba(${ACCENT}, 0.17)`)
           g.addColorStop(wedge / TAU, `rgba(${ACCENT}, 0)`)
           g.addColorStop(1, `rgba(${ACCENT}, 0)`)
           return g
@@ -105,9 +102,9 @@ export default function SonarViz() {
       const py = cy + Math.sin(c.a) * c.r * R
       const since = angDiff(sweep, c.a)
       const glow = Math.exp(-since * 1.8)
-      const base = c.target ? 0.5 : 0.22
+      const base = c.target ? 0.5 : 0.3
       const alpha = Math.min(1, base + glow)
-      const col = c.target ? ACCENT : '148, 163, 184'
+      const col = c.target ? ACCENT : INK
       ctx.fillStyle = `rgba(${col}, ${alpha})`
       ctx.beginPath()
       ctx.arc(px, py, c.target ? 3 : 1.8 + glow * 1.4, 0, TAU)
@@ -127,7 +124,7 @@ export default function SonarViz() {
         }
         ctx.stroke()
         monoLabel(ctx, 'SS-CONTACT', px + box + 6, py - 2, `rgba(${ACCENT}, 0.95)`)
-        monoLabel(ctx, `P(sub)=0.9${2 + Math.floor((Math.sin(t * 0.7) + 1) * 3)}`, px + box + 6, py + 9, 'rgba(139,152,169,0.9)')
+        monoLabel(ctx, `P(sub)=0.9${2 + Math.floor((Math.sin(t * 0.7) + 1) * 3)}`, px + box + 6, py + 9, 'rgba(106,106,106,0.95)')
       }
     }
 
@@ -162,7 +159,7 @@ export default function SonarViz() {
       s.cols.push(makeCol(t))
       while (s.cols.length > maxCols) s.cols.shift()
     }
-    ctx.strokeStyle = 'rgba(148, 163, 184, 0.25)'
+    ctx.strokeStyle = `rgba(${INK}, 0.28)`
     ctx.strokeRect(sx0 - 4, sy0 - 4, specW + 8, specH + 8)
     const bins = 46
     const cellH = specH / bins
@@ -176,12 +173,12 @@ export default function SonarViz() {
         const tonal = v > 0.55
         ctx.fillStyle = tonal
           ? `rgba(${ACCENT}, ${Math.min(1, v)})`
-          : `rgba(${BLUE}, ${v * 0.55})`
+          : `rgba(${BLUE}, ${v * 0.62})`
         ctx.fillRect(x, y + cellH * 0.2, 2.4, cellH * 0.6)
       }
     }
-    monoLabel(ctx, 't →', sx0 - 4, sy0 + specH + 16, 'rgba(91,104,120,0.8)')
-    monoLabel(ctx, 'LOFAR // Hz', sx0 + specW - 70, sy0 + specH + 16, 'rgba(139,152,169,0.8)')
+    monoLabel(ctx, 't →', sx0 - 4, sy0 + specH + 16, 'rgba(122,122,122,0.85)')
+    monoLabel(ctx, 'LOFAR // Hz', sx0 + specW - 70, sy0 + specH + 16, 'rgba(106,106,106,0.85)')
   }, [])
 
   const ref = useCanvasLoop(draw)

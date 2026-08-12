@@ -1,8 +1,5 @@
 import { useCallback } from 'react'
-import useCanvasLoop, { TAU, monoLabel } from './useCanvasLoop'
-
-const ACCENT = '255, 84, 20'
-const BLUE = '106, 165, 255'
+import useCanvasLoop, { TAU, monoLabel, PAPER, INK, ACCENT, BLUE } from './useCanvasLoop'
 
 // Open-weight model training: a parameter lattice with swirling activation
 // interference, tensor-parallel shard boundaries, token stream in, loss out.
@@ -42,7 +39,7 @@ export default function LatticeViz() {
             Math.sin(i * 0.31 - j * 0.27 + t * 0.8)
         const a = 0.06 + v * 0.85
         const hot = v > 0.72
-        ctx.fillStyle = hot ? `rgba(${ACCENT}, ${a})` : `rgba(${BLUE}, ${a * 0.55})`
+        ctx.fillStyle = hot ? `rgba(${ACCENT}, ${a})` : `rgba(${BLUE}, ${a * 0.6})`
         ctx.beginPath()
         ctx.arc(x, y, 0.8 + v * 1.9, 0, TAU)
         ctx.fill()
@@ -52,7 +49,7 @@ export default function LatticeViz() {
     // tensor-parallel shard boundaries (2 x 4) with cycling highlight
     const shardCols = 4
     const shardRows = 2
-    ctx.strokeStyle = 'rgba(148, 163, 184, 0.16)'
+    ctx.strokeStyle = `rgba(${INK}, 0.2)`
     ctx.lineWidth = 1
     for (let i = 1; i < shardCols; i++) {
       const x = gx0 + (gw * i) / shardCols
@@ -97,7 +94,7 @@ export default function LatticeViz() {
       s.tokens.push({ x: w + 10, w: 14 + Math.random() * 34 })
     }
     const ty = h - 44
-    ctx.strokeStyle = 'rgba(148, 163, 184, 0.22)'
+    ctx.strokeStyle = `rgba(${INK}, 0.26)`
     ctx.beginPath()
     ctx.moveTo(gx0 - 20, ty)
     ctx.lineTo(w - 20, ty)
@@ -110,23 +107,23 @@ export default function LatticeViz() {
         continue
       }
       const entering = tok.x < gx0 + 30
-      ctx.fillStyle = entering ? `rgba(${ACCENT}, 0.8)` : 'rgba(148, 163, 184, 0.4)'
+      ctx.fillStyle = entering ? `rgba(${ACCENT}, 0.8)` : `rgba(${INK}, 0.45)`
       ctx.fillRect(tok.x, ty - 5, tok.w, 10)
-      ctx.fillStyle = '#05070a'
+      ctx.fillStyle = PAPER
       ctx.fillRect(tok.x + 1, ty - 4, tok.w - 2, 8)
-      ctx.fillStyle = entering ? `rgba(${ACCENT}, 0.5)` : 'rgba(148, 163, 184, 0.25)'
+      ctx.fillStyle = entering ? `rgba(${ACCENT}, 0.28)` : `rgba(${INK}, 0.15)`
       ctx.fillRect(tok.x + 1, ty - 4, tok.w - 2, 8)
     }
-    monoLabel(ctx, 'BPE token stream →', gx0 - 20, ty + 20, 'rgba(139,152,169,0.8)')
+    monoLabel(ctx, 'BPE token stream →', gx0 - 20, ty + 20, 'rgba(106,106,106,0.85)')
 
     // loss curve (power-law) top right
     const lw = 120
     const lh = 34
     const lx = w - lw - 18
     const ly = 48
-    ctx.fillStyle = 'rgba(5, 7, 10, 0.7)'
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.88)'
     ctx.fillRect(lx - 8, ly - 6, lw + 16, lh + 20)
-    ctx.strokeStyle = 'rgba(148, 163, 184, 0.28)'
+    ctx.strokeStyle = `rgba(${INK}, 0.28)`
     ctx.strokeRect(lx - 8, ly - 6, lw + 16, lh + 20)
     ctx.strokeStyle = `rgba(${BLUE}, 0.9)`
     ctx.lineWidth = 1.2
@@ -145,9 +142,9 @@ export default function LatticeViz() {
     ctx.beginPath()
     ctx.arc(lx + mu * lw, ly + lh - Math.min(1, Math.max(0, mv)) * lh, 2.2, 0, TAU)
     ctx.fill()
-    monoLabel(ctx, 'L(C) ∝ C^-α', lx - 2, ly + lh + 10, 'rgba(139,152,169,0.85)')
+    monoLabel(ctx, 'L(C) ∝ C^-α', lx - 2, ly + lh + 10, 'rgba(106,106,106,0.85)')
 
-    monoLabel(ctx, 'W ∈ R^{d×d} // multilingual corpus', w - 248, ty + 20, 'rgba(139,152,169,0.8)')
+    monoLabel(ctx, 'W ∈ R^{d×d} // multilingual corpus', w - 248, ty + 20, 'rgba(106,106,106,0.85)')
   }, [])
 
   const ref = useCanvasLoop(draw)

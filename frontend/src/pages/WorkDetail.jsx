@@ -29,14 +29,6 @@ export default function WorkDetail() {
       <h1 className="page-title">{item.title}</h1>
       <div className="detail-org">{item.org}</div>
 
-      <div className="tag-row" style={{ marginTop: 0, marginBottom: 8 }}>
-        {item.tags.map((tg) => (
-          <span key={tg} className="tag">
-            {tg}
-          </span>
-        ))}
-      </div>
-
       <section className="detail-section">
         <div className="section-label">Summary</div>
         <div className="prose">

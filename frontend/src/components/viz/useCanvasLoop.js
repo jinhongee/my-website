@@ -54,8 +54,16 @@ export default function useCanvasLoop(draw) {
 
 export const TAU = Math.PI * 2
 
+// figure palette — ink on paper, drawn from the page's own tokens so the
+// panels read as part of the site rather than embedded instruments
+export const PAPER = '#ffffff'
+export const INK = '84, 92, 104'
+export const ACCENT = '255, 69, 0'
+export const BLUE = '31, 95, 191'
+export const ALERT = '193, 42, 32'
+
 export function drawDotGrid(ctx, w, h, spacing = 24, alpha = 0.1) {
-  ctx.fillStyle = `rgba(148, 163, 184, ${alpha})`
+  ctx.fillStyle = `rgba(${INK}, ${alpha})`
   for (let x = spacing / 2; x < w; x += spacing) {
     for (let y = spacing / 2; y < h; y += spacing) {
       ctx.fillRect(x - 0.5, y - 0.5, 1, 1)
@@ -63,7 +71,7 @@ export function drawDotGrid(ctx, w, h, spacing = 24, alpha = 0.1) {
   }
 }
 
-export function monoLabel(ctx, text, x, y, color = 'rgba(139, 152, 169, 0.85)', size = 9) {
+export function monoLabel(ctx, text, x, y, color = 'rgba(106, 106, 106, 0.85)', size = 9) {
   ctx.font = `500 ${size}px "IBM Plex Mono", monospace`
   ctx.fillStyle = color
   ctx.fillText(text, x, y)

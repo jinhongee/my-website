@@ -4,7 +4,7 @@ const links = [
   { to: '/', label: 'Main', end: true },
   { to: '/work', label: 'Work' },
   { to: '/readings', label: 'Readings' },
-  { to: '/articles', label: 'Articles' },
+  { to: '/articles', label: 'Essays' },
 ]
 
 export default function Layout({ children }) {
@@ -30,12 +30,6 @@ export default function Layout({ children }) {
         </div>
       </header>
       <main className="container main-content">{children}</main>
-      <footer className="container site-footer">
-        <span className="mono">© {new Date().getFullYear()} Jinhong Min</span>
-        <a className="mono" href="mailto:jinhong@quno.ai">
-          jinhong@quno.ai
-        </a>
-      </footer>
     </div>
   )
 }

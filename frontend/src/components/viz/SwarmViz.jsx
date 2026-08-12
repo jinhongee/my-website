@@ -1,150 +1,98 @@
 import { useCallback } from 'react'
-import useCanvasLoop, { TAU, drawDotGrid, monoLabel } from './useCanvasLoop'
+import useCanvasLoop, { TAU, drawDotGrid, monoLabel, PAPER, INK, ACCENT } from './useCanvasLoop'
 
-const COHORTS = [
-  { rgb: '255, 84, 20', label: 'π_A' },
-  { rgb: '106, 165, 255', label: 'π_B' },
-  { rgb: '148, 163, 184', label: 'π_C' },
-]
+const SHELLS = 9
 
-// Generative agent population: boid dynamics blended with a swirling
-// time-varying vector field; proximity edges = pairwise interactions.
+// Generative agent population as an orrery: each shell is a cohort on a shared
+// orbit, turning at ω ∝ 1/r. Interactions are drawn only where neighbouring
+// cohorts fall into alignment, so the coupling sweeps slowly instead of churning.
 export default function SwarmViz() {
-  const draw = useCallback((ctx, w, h, t, s) => {
-    if (!s.agents) {
-      s.agents = Array.from({ length: 132 }, (_, i) => ({
-        x: Math.random(),
-        y: Math.random(),
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        c: i % 3,
-      }))
-      s.trail = null
-    }
-    if (s.resized) {
-      s.resized = false
-      s.trail = null
-    }
+  const draw = useCallback((ctx, w, h, t) => {
+    ctx.fillStyle = PAPER
+    ctx.fillRect(0, 0, w, h)
+    drawDotGrid(ctx, w, h, 26, 0.05)
 
-    // motion trails: fade previous frame instead of clearing
-    if (!s.trail) {
-      ctx.clearRect(0, 0, w, h)
-      s.trail = true
-    } else {
-      ctx.fillStyle = 'rgba(5, 7, 10, 0.16)'
-      ctx.fillRect(0, 0, w, h)
-    }
-    drawDotGrid(ctx, w, h, 24, 0.045)
+    const cx = w / 2
+    const cy = h / 2
 
-    const dt = 0.016
-    const agents = s.agents
-    const R = 0.085 // neighbour radius (normalized)
+    const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.55)
+    glow.addColorStop(0, `rgba(${ACCENT}, 0.05)`)
+    glow.addColorStop(1, 'rgba(255, 255, 255, 0)')
+    ctx.fillStyle = glow
+    ctx.fillRect(0, 0, w, h)
 
-    // interaction edges (subsampled for cost)
-    ctx.lineWidth = 0.6
-    let edges = 0
-    for (let i = 0; i < agents.length && edges < 90; i += 2) {
-      for (let j = i + 2; j < agents.length && edges < 90; j += 2) {
-        const a = agents[i]
-        const b = agents[j]
-        const dx = a.x - b.x
-        const dy = a.y - b.y
-        const d2 = dx * dx + dy * dy
-        if (d2 < 0.0035) {
-          const alpha = 0.28 * (1 - d2 / 0.0035)
-          ctx.strokeStyle = `rgba(148, 163, 184, ${alpha})`
-          ctx.beginPath()
-          ctx.moveTo(a.x * w, a.y * h)
-          ctx.lineTo(b.x * w, b.y * h)
-          ctx.stroke()
-          edges++
-        }
-      }
+    // shell geometry, resolved once per frame and shared by orbits/agents/chords
+    const breathe = 1 + Math.sin(t * 0.17) * 0.014
+    const shells = []
+    for (let k = 0; k < SHELLS; k++) {
+      const f = (k + 1) / SHELLS
+      const n = 5 + k * 4
+      shells.push({
+        rx: w * 0.45 * f * breathe,
+        ry: h * 0.41 * f * breathe,
+        n,
+        step: TAU / n,
+        phase: (t * 0.14) / (0.3 + f) + k * 0.55,
+      })
     }
 
-    for (const a of agents) {
-      // boid forces
-      let cxn = 0, cyn = 0, axn = 0, ayn = 0, sxn = 0, syn = 0, nn = 0
-      for (const b of agents) {
-        if (a === b) continue
-        const dx = b.x - a.x
-        const dy = b.y - a.y
-        const d2 = dx * dx + dy * dy
-        if (d2 > R * R) continue
-        nn++
-        cxn += b.x
-        cyn += b.y
-        axn += b.vx
-        ayn += b.vy
-        if (d2 < 0.0009) {
-          sxn -= dx / (d2 + 1e-4)
-          syn -= dy / (d2 + 1e-4)
-        }
-      }
-      if (nn > 0) {
-        a.vx += ((cxn / nn - a.x) * 0.55 + (axn / nn - a.vx) * 0.28) * dt
-        a.vy += ((cyn / nn - a.y) * 0.55 + (ayn / nn - a.vy) * 0.28) * dt
-        a.vx += sxn * 0.00035 * dt * 60
-        a.vy += syn * 0.00035 * dt * 60
-      }
-
-      // swirling environment field (curl-ish, time varying)
-      const fa =
-        Math.sin(a.x * 5.2 + t * 0.32) * 1.6 +
-        Math.cos(a.y * 4.4 - t * 0.24) * 1.6 +
-        Math.atan2(a.y - 0.5, a.x - 0.5)
-      a.vx += Math.cos(fa + Math.PI / 2) * 0.09 * dt
-      a.vy += Math.sin(fa + Math.PI / 2) * 0.09 * dt
-
-      // speed clamp
-      const sp = Math.hypot(a.vx, a.vy)
-      const smax = 0.16
-      const smin = 0.035
-      if (sp > smax) {
-        a.vx = (a.vx / sp) * smax
-        a.vy = (a.vy / sp) * smax
-      } else if (sp < smin && sp > 0) {
-        a.vx = (a.vx / sp) * smin
-        a.vy = (a.vy / sp) * smin
-      }
-
-      a.x += a.vx * dt
-      a.y += a.vy * dt
-      if (a.x < -0.02) a.x = 1.02
-      if (a.x > 1.02) a.x = -0.02
-      if (a.y < -0.02) a.y = 1.02
-      if (a.y > 1.02) a.y = -0.02
-
-      const px = a.x * w
-      const py = a.y * h
-      const col = COHORTS[a.c].rgb
-      ctx.fillStyle = `rgba(${col}, 0.92)`
+    ctx.lineWidth = 1
+    ctx.strokeStyle = `rgba(${INK}, 0.12)`
+    for (const s of shells) {
       ctx.beginPath()
-      ctx.arc(px, py, 1.7, 0, TAU)
-      ctx.fill()
-      // heading tick
-      const hd = Math.atan2(a.vy, a.vx)
-      ctx.strokeStyle = `rgba(${col}, 0.5)`
-      ctx.lineWidth = 1
-      ctx.beginPath()
-      ctx.moveTo(px, py)
-      ctx.lineTo(px + Math.cos(hd) * 5, py + Math.sin(hd) * 5)
+      ctx.ellipse(cx, cy, s.rx, s.ry, 0, 0, TAU)
       ctx.stroke()
     }
 
-    // legend
-    ctx.fillStyle = 'rgba(5, 7, 10, 0.7)'
-    ctx.fillRect(12, h - 40, 210, 28)
-    COHORTS.forEach((c, i) => {
-      ctx.fillStyle = `rgba(${c.rgb}, 0.95)`
+    // coupling: a chord appears only inside a narrow alignment window
+    const WINDOW = 0.034
+    ctx.lineWidth = 0.7
+    let links = 0
+    for (let k = 0; k < SHELLS - 1; k++) {
+      const a = shells[k]
+      const b = shells[k + 1]
+      for (let i = 0; i < a.n; i++) {
+        const th = a.phase + i * a.step
+        const th2 = b.phase + Math.round((th - b.phase) / b.step) * b.step
+        const d = Math.atan2(Math.sin(th - th2), Math.cos(th - th2))
+        if (Math.abs(d) > WINDOW) continue
+        ctx.strokeStyle = `rgba(${INK}, ${0.32 * (1 - Math.abs(d) / WINDOW)})`
+        ctx.beginPath()
+        ctx.moveTo(cx + Math.cos(th) * a.rx, cy + Math.sin(th) * a.ry)
+        ctx.lineTo(cx + Math.cos(th2) * b.rx, cy + Math.sin(th2) * b.ry)
+        ctx.stroke()
+        links++
+      }
+    }
+
+    let agents = 0
+    for (let k = 0; k < SHELLS; k++) {
+      const s = shells[k]
+      // one tracer per shell, so the differential rotation stays readable
+      ctx.strokeStyle = `rgba(${ACCENT}, 0.22)`
+      ctx.lineWidth = 1
       ctx.beginPath()
-      ctx.arc(24 + i * 66, h - 26, 2.2, 0, TAU)
-      ctx.fill()
-      monoLabel(ctx, `${c.label}(a|s)`, 31 + i * 66, h - 22, 'rgba(139,152,169,0.85)')
-    })
-    monoLabel(ctx, `N=${agents.length} agents // interactions: ${String(edges).padStart(2, '0')}`, w - 232, h - 22, 'rgba(139,152,169,0.85)')
+      ctx.ellipse(cx, cy, s.rx, s.ry, 0, s.phase - 0.28, s.phase)
+      ctx.stroke()
+
+      for (let i = 0; i < s.n; i++) {
+        const th = s.phase + i * s.step
+        const px = cx + Math.cos(th) * s.rx
+        const py = cy + Math.sin(th) * s.ry
+        const tracer = i === 0
+        ctx.fillStyle = tracer ? `rgba(${ACCENT}, 0.95)` : `rgba(${INK}, ${0.3 + k * 0.05})`
+        ctx.beginPath()
+        ctx.arc(px, py, tracer ? 2.1 : 1.5, 0, TAU)
+        ctx.fill()
+        agents++
+      }
+    }
+
+    const label = `N=${agents}   ω ∝ 1/r   coupled: ${String(links).padStart(2, '0')}`
+    ctx.font = '500 9px "IBM Plex Mono", monospace'
+    monoLabel(ctx, label, w - ctx.measureText(label).width - 14, h - 14, 'rgba(106, 106, 106, 0.6)')
   }, [])
 
   const ref = useCanvasLoop(draw)
-  return <canvas ref={ref} className="viz-canvas" aria-label="Animated multi-agent simulation swarm" />
+  return <canvas ref={ref} className="viz-canvas" aria-label="Animated concentric agent population" />
 }
